@@ -1,12 +1,13 @@
-import { logger } from './logger.js';
+import { HttpError } from 'http-errors';
 
 // eslint-disable-next-line no-unused-vars
-const errorHandler = (err, req, res, next) => {
-  logger.error(err, 'Error handling request');
+export const errorHandler = (err, req, res, next) => {
+  if (err instanceof HttpError) {
+    console.error(`HttpError: ${err.message}`);
+    res.status(err.statusCode).json({ message: err.message });
+    return;
+  }
 
-  const status = err.status || err.statusCode || 500;
-
-  res.status(status).json({ message: err.message });
+  console.error('Unexpected error:', err);
+  res.status(500).json({ message: 'Internal server error' });
 };
-
-export default errorHandler;

@@ -23,7 +23,7 @@ export const createNote = async (req, res) => {
 
 export const updateNote = async (req, res) => {
   const note = await Note.findByIdAndUpdate(req.params.noteId, req.body, {
-    new: true,
+    returnDocument: 'after',
     runValidators: true,
   });
 

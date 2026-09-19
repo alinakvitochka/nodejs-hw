@@ -4,7 +4,8 @@ export const connectMongoDB = async () => {
   const mongoUrl = process.env.MONGO_URL;
 
   if (!mongoUrl) {
-    throw new Error('MONGO_URL environment variable is not set');
+    console.error('MONGO_URL environment variable is not set');
+    process.exit(1);
   }
 
   mongoose.connection.on('connected', () => {
@@ -12,12 +13,18 @@ export const connectMongoDB = async () => {
   });
 
   mongoose.connection.on('error', (err) => {
-    console.error('MongoDB connection error:', err);
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
   });
 
   mongoose.connection.on('disconnected', () => {
     console.log('MongoDB disconnected');
   });
 
-  await mongoose.connect(mongoUrl);
+  try {
+    await mongoose.connect(mongoUrl);
+  } catch (err) {
+    console.error('Failed to connect to MongoDB:', err.message);
+    process.exit(1);
+  }
 };

@@ -16,4 +16,4 @@ const logger = pino({
 
 const httpLogger = pinoHttp({ logger });
 
-export { logger, httpLogger };
+export { httpLogger };
