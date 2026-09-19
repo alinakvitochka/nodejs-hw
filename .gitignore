@@ -15,3 +15,7 @@ npm-debug.log*
 # Editor
 .vscode/
 .idea/
+
+# Local planning docs
+PLAN.md
+plans/
