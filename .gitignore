@@ -16,6 +16,9 @@ npm-debug.log*
 .vscode/
 .idea/
 
+# Generated smoke test fixtures
+scripts/smoke/fixtures/
+
 # Local planning docs
 PLAN.md
 plans/

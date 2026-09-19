@@ -29,3 +29,21 @@ export const loginUserSchema = {
     }),
   }),
 };
+
+// POST /auth/request-reset-email — request body
+export const requestResetEmailSchema = {
+  [Segments.BODY]: Joi.object({
+    email: emailRule,
+  }),
+};
+
+// POST /auth/reset-password — request body
+export const resetPasswordSchema = {
+  [Segments.BODY]: Joi.object({
+    password: passwordRule,
+    token: Joi.string().required().messages({
+      'string.base': 'Token must be a string',
+      'any.required': 'Token is required',
+    }),
+  }),
+};

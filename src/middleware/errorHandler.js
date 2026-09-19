@@ -8,6 +8,18 @@ export const errorHandler = (err, req, res, next) => {
     return;
   }
 
+  // Multer errors are plain Errors; map to 400 instead of a generic 500.
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    console.error('Multer error:', err.message);
+    res.status(400).json({ message: 'File too large' });
+    return;
+  }
+  if (err.message === 'Only images allowed') {
+    console.error('Multer error:', err.message);
+    res.status(400).json({ message: 'Only images allowed' });
+    return;
+  }
+
   console.error('Unexpected error:', err);
   res.status(500).json({ message: 'Internal server error' });
 };
