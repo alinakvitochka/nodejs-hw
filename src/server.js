@@ -1,56 +1,41 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import pinoHttp from 'pino-http';
-import pino from 'pino';
-
-const isDev = process.env.NODE_ENV !== 'production';
-
-const logger = pino({
-  name: 'http',
-  level: process.env.LOG_LEVEL || 'info',
-  transport: isDev
-    ? { target: 'pino-pretty', options: { colorize: true, translateTime: 'SYS:HH:MM:ss' } }
-    : undefined,
-});
+import { connectMongoDB } from './db/connectMongoDB.js';
+import { httpLogger, logger } from './middleware/logger.js';
+import notesRouter from './routes/notesRoutes.js';
+import notFoundHandler from './middleware/notFoundHandler.js';
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
 // Middleware
-app.use(pinoHttp({ logger }));
-app.use(cors());
+app.use(httpLogger);
 app.use(express.json());
+app.use(cors());
 
 // Routes
-app.get('/notes', (req, res) => {
-  res.status(200).json({ message: 'Retrieved all notes' });
-});
-
-app.get('/notes/:noteId', (req, res) => {
-  res
-    .status(200)
-    .json({ message: `Retrieved note with ID: ${req.params.noteId}` });
-});
-
-// Test route for simulating an error
-app.get('/test-error', () => {
-  throw new Error('Simulated server error');
-});
+app.use(notesRouter);
 
 // 404 middleware (after all routes, before error handler)
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+app.use(notFoundHandler);
 
 // Error handling middleware (last)
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  logger.error(err, 'Error handling request');
-  res.status(500).json({ message: err.message });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectMongoDB();
+  } catch (err) {
+    logger.error(err, 'Failed to connect to MongoDB');
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    logger.info(`Server is running on port ${PORT}`);
+  });
+};
+
+startServer();

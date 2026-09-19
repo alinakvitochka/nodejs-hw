@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Finish the project report",
+    "content": "Complete the final report and send it to the team lead.",
+    "tag": "Work"
+  },
+  {
+    "title": "Call mom",
+    "content": "Have a quick catch-up call with mom this weekend.",
+    "tag": "Personal"
+  },
+  {
+    "title": "Sprint planning",
+    "content": "Prepare the agenda and Jira tickets for the sprint planning meeting.",
+    "tag": "Meeting"
+  },
+  {
+    "title": "Groceries",
+    "content": "Buy milk, eggs, bread, fruits and vegetables.",
+    "tag": "Shopping"
+  },
+  {
+    "title": "Weekend app idea",
+    "content": "A small habit tracker with daily streaks and reminders.",
+    "tag": "Ideas"
+  },
+  {
+    "title": "Trip to the mountains",
+    "content": "Book tickets and find a hiking trail for the autumn getaway.",
+    "tag": "Travel"
+  },
+  {
+    "title": "Monthly budget review",
+    "content": "Check expenses and update the savings plan.",
+    "tag": "Finance"
+  },
+  {
+    "title": "Doctor appointment",
+    "content": "Annual check-up at the clinic on Friday.",
+    "tag": "Health"
+  },
+  {
+    "title": "Renew passport",
+    "content": "Prepare the documents and book a slot at the service center.",
+    "tag": "Important"
+  },
+  {
+    "title": "Plan the week",
+    "content": "Sort out the top priorities and schedule time blocks.",
+    "tag": "Todo"
+  }
+]
