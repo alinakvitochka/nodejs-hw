@@ -3,6 +3,11 @@ import { TAGS } from '../constants/tags.js';
 
 const noteSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -22,7 +27,7 @@ const noteSchema = new Schema(
   { timestamps: true }
 );
 
-noteSchema.index({ tag: 1 });
+noteSchema.index({ userId: 1, tag: 1 });
 
 const Note = model('Note', noteSchema);
 
