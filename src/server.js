@@ -1,12 +1,20 @@
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import pinoHttp from 'pino-http';
+import pino from 'pino';
 
-const express = require('express');
-const cors = require('cors');
-const pinoHttp = require('pino-http');
-const pino = require('pino');
+const isDev = process.env.NODE_ENV !== 'production';
+
+const logger = pino({
+  name: 'http',
+  level: process.env.LOG_LEVEL || 'info',
+  transport: isDev
+    ? { target: 'pino-pretty', options: { colorize: true, translateTime: 'SYS:HH:MM:ss' } }
+    : undefined,
+});
 
 const app = express();
-const logger = pino({ name: 'http', level: process.env.LOG_LEVEL || 'info' });
 
 // Middleware
 app.use(pinoHttp({ logger }));
